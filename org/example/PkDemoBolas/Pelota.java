@@ -40,10 +40,10 @@ public class Pelota implements Dibujable, Tickable {
     }
 
     public void tick(Pala pala1, Pala pala2) {
-        if (System.currentTimeMillis() % 20000 == 0) {
+        if (System.currentTimeMillis() % 2000 == 0) {
             rapidez = !rapidez;
             if (rapidez) {
-                velocidad = 1.5; //Para que la pelota vaya más rápido
+                velocidad = 1; //Para que la pelota vaya más rápido
             } else {
                 velocidad = 0.5; // Para que la pelota vaya maas despacio
             }
