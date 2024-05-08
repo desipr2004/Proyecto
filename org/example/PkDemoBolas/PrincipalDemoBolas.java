@@ -12,38 +12,30 @@ import org.example.ApliCanvas.VentanaMultimedia;
 
 public class PrincipalDemoBolas {
     private static final int DELAY = 30; // Milisegundos.
-    private static final Random aleatorio = new Random();
 
     public static void main(String[] args) {
-        boolean pantallaBuena = true; // true: VentanaMultimedia; false: PantallaBN
-        boolean aumentoProgresivoPantalla = false;
 
-        Lienzo lienzo;
-        if (pantallaBuena) {
-            lienzo = new VentanaMultimedia("PIN PON", 50, 50, 10, Color.BLACK);
-            ((VentanaMultimedia) lienzo).setTitle("PIN PON");
-        } else {
-            lienzo = new PantallaBN(16, 16);
-        }
+        Lienzo lienzo = new VentanaMultimedia("A jugar!!", 500, 500, 10, Color.BLACK);
+        ((VentanaMultimedia) lienzo).setTitle("PIN PON");
 
-        ArrayList<Pelota> bolas = new ArrayList<Pelota>();
+        //Creacion de la bola y la pala y las agregamos al lienzo
+        Pelota bola = new Pelota(16, 16, 45, 0.50, 3, 4, Color.white, lienzo);
+        Pala pala1 = new Pala(20, 200, 20, 100, Color.pink, lienzo);
+        Pala pala2 = new Pala(460, 200, 20, 100, Color.pink, lienzo);
 
-        double anguloAleatorioX = aleatorio.nextDouble()* 360;
-        bolas.add(new Pelota(16, 16, anguloAleatorioX , 0.50, 3,4 ,Color.BLUE, lienzo));
 
         while (true) {
-            if (aumentoProgresivoPantalla && Math.random() < 0.02) {
-                lienzo.redimensionar(lienzo.getTamX() + 1, lienzo.getTamY() + 1);
-            }
 
             lienzo.limpiar();
+            bola.tick();
+            bola.dibujar();
+            pala1.dibujar();
+            pala2.dibujar();
 
+            if (bola.colisionarConPala(pala1) || bola.colisionarConPala(pala2)) {
 
-            for (Pelota bola : bolas) {
-                bola.tick();
-                bola.dibujar();
+                bola.invertirVelocidadHorizontal();
             }
-
             lienzo.volcar();
 
             Utilidades.espera(DELAY);

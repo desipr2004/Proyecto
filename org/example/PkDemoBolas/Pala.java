@@ -24,13 +24,21 @@ public class Pala implements Dibujable {
 
     }
 
-
-    public void mover(int deltaY) {
-        this.y += deltaY;// Esto aumenta o disminuye el tamaño de la pala
-        this.y = Math.max(0, Math.min(lienzo.getTamY() - alto, this.y));//  // Para que la pala no se salga del lienzo
-        // ademas al asegurarnos de que this.y sea menor que 0, impide que la pala se salga por arriba del lienzo
+    public int getX() {
+        return x;
     }
 
+    public int getY() {
+        return y;
+    }
+
+    public int getAncho() {
+        return ancho;
+    }
+
+    public int getAlto() {
+        return alto;
+    }
 
     @Override
     public void setLienzo(Lienzo lienzo) {
@@ -45,4 +53,11 @@ public class Pala implements Dibujable {
             }
         }
     }
+
+    public void mover(int deltaY) {
+        this.y += deltaY;// Esto aumenta o disminuye el tamaño de la pala
+        this.y = Math.max(0, Math.min(lienzo.getTamY() - alto, this.y));//  // Para que la pala no se salga del lienzo
+        // ademas al asegurarnos de que this.y sea menor que 0, impide que la pala se salga por arriba del lienzo
+    }
+
 }

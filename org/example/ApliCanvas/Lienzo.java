@@ -18,5 +18,7 @@ public interface Lienzo {
     public void escribirTexto(int x, int y, String texto, Color color);
 
     public void volcar();
+
+
 }
 

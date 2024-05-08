@@ -52,7 +52,7 @@ public class Pelota implements Dibujable, Tickable {
 // Convierte el angulo en radianes que serian los desplazamientos
 
         double desplazamientoX = velocidad * Math.cos(Math.toRadians(angulo));
-        double desplazamientoY = velocidad * Math.cos(Math.toRadians(angulo));
+        double desplazamientoY = velocidad * Math.sin(Math.toRadians(angulo));
 
 //Mover la pelota
         posX += desplazamientoX;
@@ -64,22 +64,34 @@ public class Pelota implements Dibujable, Tickable {
             posY = Math.max(0, Math.min(lienzo.getTamY() - 1, posY)); // se asegura de que la pelota no salga del lienzo
         }
 
-        //Rebotar en las paletas (arriba y abajo )
+        //Para que rebote en las palas
 
-        if (posX <= anchoPaleta && posY >= lienzo.getTamY() / 4 && posY <= 3 * lienzo.getTamY() / 4) {// para ver si ha chocado con la pala de arriba
-            angulo = 180 - angulo + aleatorio.nextDouble() * 20 - 10;// es el rebote en las palas , dandole un valor aleatorio en el rebote
+        if (colisionarConPala(Pala pala1)) {
+            angulo = 180 - angulo + aleatorio.nextDouble() * 20 - 10;
             posX = Math.max(0, Math.min(lienzo.getTamX() - 1, posX));
-
-        }
-
-        if (posX >= lienzo.getTamX() - 1 - anchoPaleta && posY >= lienzo.getTamY() / 4 && posY <= 3 * lienzo.getTamY() / 4) {// para ver si ha chocado con la pala de abajo
-            angulo = 180 -angulo +aleatorio.nextDouble() * 20 -10 ;
-            posX = Math.max(0, Math.min(lienzo.getTamX()-1, posX));
-
-        }
-
-
-        public void dibujar () {// toma las posiciones de la pelota y se van visiualizando en la pantalla
-            lienzo.marcarPixel((int) Math.floor(posX), (int) Math.floor(posY), color);
         }
     }
+
+    public void dibujar() {// toma las posiciones de la pelota y se van visiualizando en la pantalla
+        lienzo.marcarPixel((int) Math.floor(posX), (int) Math.floor(posY), color);
+    }
+
+    private boolean colisionarConPala(Pala pala1) {
+        // Hay que asegurarse de la colision con la pala de arriba y abajo
+
+        if (posX <= anchoPaleta && posY >= lienzo.getTamY() / 4 && posY <= 3 * lienzo.getTamY() / 4) {
+            return true;
+        }
+        if (posX >= lienzo.getTamX() - 1 - anchoPaleta && posY >= lienzo.getTamY() / 4 && posY <= 3 * lienzo.getTamY() / 4) {
+            return true;
+        }
+
+        return false;
+    }// verifica si la bola esta muy cerca del borde derechp del lienzo y dentro del rango vertical
+    // que corresponde a la pala de abajo
+
+    public void invertirVelocidadHorizontal() {
+        angulo = (angulo + 180) % 360;// este metodo cambia la direccion de lapelota unos 180 grados
+    }
+
+}
