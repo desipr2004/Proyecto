@@ -27,15 +27,10 @@ public class PrincipalDemoBolas {
         while (true) {
 
             lienzo.limpiar();
-            bola.tick();
+            bola.tick(pala1, pala2);
             bola.dibujar();
             pala1.dibujar();
             pala2.dibujar();
-
-            if (bola.colisionarConPala(pala1) || bola.colisionarConPala(pala2)) {
-
-                bola.invertirVelocidadHorizontal();
-            }
             lienzo.volcar();
 
             Utilidades.espera(DELAY);

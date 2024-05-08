@@ -1,6 +1,8 @@
 package org.example.ApliCanvas;
 
 
+import org.example.PkDemoBolas.Pala;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -85,7 +87,7 @@ public class Teclado implements KeyListener, Tickable {
         // KeyListener nos obliga a implementarlo, lo ponemos vacío.
     }
 
-    public void tick() {
+    public void tick(Pala pala1, Pala pala2) {
         procesarEstadosCon1Vez();
     }
 }

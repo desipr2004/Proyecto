@@ -39,7 +39,7 @@ public class Pelota implements Dibujable, Tickable {
         this.lienzo = lienzo;
     }
 
-    public void tick() {
+    public void tick(Pala pala1, Pala pala2) {
         if (System.currentTimeMillis() % 20000 == 0) {
             rapidez = !rapidez;
             if (rapidez) {
@@ -66,7 +66,7 @@ public class Pelota implements Dibujable, Tickable {
 
         //Para que rebote en las palas
 
-        if (colisionarConPala(Pala pala1)) {
+        if (colisionarConPala(pala1) || colisionarConPala(pala2)) {
             angulo = 180 - angulo + aleatorio.nextDouble() * 20 - 10;
             posX = Math.max(0, Math.min(lienzo.getTamX() - 1, posX));
         }
@@ -76,7 +76,7 @@ public class Pelota implements Dibujable, Tickable {
         lienzo.marcarPixel((int) Math.floor(posX), (int) Math.floor(posY), color);
     }
 
-    private boolean colisionarConPala(Pala pala1) {
+    private boolean colisionarConPala(Pala pala) {
         // Hay que asegurarse de la colision con la pala de arriba y abajo
 
         if (posX <= anchoPaleta && posY >= lienzo.getTamY() / 4 && posY <= 3 * lienzo.getTamY() / 4) {

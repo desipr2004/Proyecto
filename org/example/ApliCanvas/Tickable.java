@@ -7,6 +7,8 @@ package org.example.ApliCanvas;
 // El objeto, a su vez, actualizará su estado interno en el método
 // (ubicación//movimiento, puntuaciones, etc.).
 
+import org.example.PkDemoBolas.Pala;
+
 public interface Tickable {
-    public void tick();
+    public void tick(Pala pala1, Pala pala2);
 }
