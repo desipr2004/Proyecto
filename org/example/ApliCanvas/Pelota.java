@@ -1,11 +1,7 @@
-package org.example.PkDemoBolas;
+package org.example.ApliCanvas;
 
 import java.awt.Color;
 import java.util.Random;
-
-import org.example.ApliCanvas.Dibujable;
-import org.example.ApliCanvas.Lienzo;
-import org.example.ApliCanvas.Tickable;
 
 
 public class Pelota implements Dibujable, Tickable {
@@ -61,14 +57,14 @@ public class Pelota implements Dibujable, Tickable {
         // Rebotar en los bordes verticales del lienzo
         if (posY <= 0 || posY >= lienzo.getTamY() - 1) { // comprueba si la pelota esta en el borde superior o inferior del lienzo
             angulo = 360 - angulo; // se le resta para que rebote en sentido contrario
-            posY = Math.max(0, Math.min(lienzo.getTamY() - 1, posY)); // se asegura de que la pelota no salga del lienzo
+           // posY = Math.max(0, Math.min(lienzo.getTamY() - 1, posY)); // se asegura de que la pelota no salga del lienzo
         }
 
         //Para que rebote en las palas
 
         if (colisionarConPala(pala1) || colisionarConPala(pala2)) {
             angulo = 180 - angulo + aleatorio.nextDouble() * 20 - 10;
-            posX = Math.max(0, Math.min(lienzo.getTamX() - 1, posX));
+           // posX = Math.max(0, Math.min(lienzo.getTamX() - 1, posX));
         }
     }
 

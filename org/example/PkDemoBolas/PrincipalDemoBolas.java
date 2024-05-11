@@ -1,21 +1,16 @@
 package org.example.PkDemoBolas;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Random;
 
 
-import org.example.ApliCanvas.Lienzo;
-import org.example.ApliCanvas.PantallaBN;
-import org.example.ApliCanvas.Utilidades;
-import org.example.ApliCanvas.VentanaMultimedia;
+import org.example.ApliCanvas.*;
 
 public class PrincipalDemoBolas {
     private static final int DELAY = 30; // Milisegundos.
 
     public static void main(String[] args) {
 
-        Lienzo lienzo = new VentanaMultimedia("A jugar!!", 500, 500, 10, Color.BLACK);
+        Lienzo lienzo = new VentanaMultimedia("A jugar!!");
         ((VentanaMultimedia) lienzo).setTitle("PIN PON");
 
         //Creacion de la bola y la pala y las agregamos al lienzo

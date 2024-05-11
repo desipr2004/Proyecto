@@ -1,8 +1,6 @@
 package org.example.ApliCanvas;
 
 
-import org.example.PkDemoBolas.Pala;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

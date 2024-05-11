@@ -1,4 +1,5 @@
 package org.example.ApliCanvas;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -37,7 +38,7 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
     // disponible para terceros, para que puedan consultar las teclas.
     private Teclado teclado = new Teclado();
 
-    public VentanaMultimedia(String tituloVentana, int ancho, int alto, int tamPixel, Color colorFondo) {
+    public VentanaMultimedia(String tituloVentana) {
         super(tituloVentana);
 
         this.ancho = ancho;
@@ -92,9 +93,11 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
     public int getAncho() {
         return ancho;
     }
+
     public int getAlto() {
         return alto;
     }
+
     public Teclado getTeclado() {
         return teclado;
     }
@@ -104,26 +107,31 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
         // La posición se calcula para que la ventana quede centrada en la pantalla.
         // Se suman algunos píxeles adicionales para tener en cuenta que el JFrame
         // tiene un título y unos bordes que también ocupan algunos píxeles.
-        int posXMarco = (configuracionGraficaSistema.getBounds().width - (ancho*tamPixel + PIXELES_EXTRA_ANCHO_VENTANA)) / 2;
-        int posYMarco = (configuracionGraficaSistema.getBounds().height - (alto*tamPixel + PIXELES_EXTRA_ALTO_VENTANA)) / 2;
-        setBounds(posXMarco, posYMarco, ancho*tamPixel + PIXELES_EXTRA_ANCHO_VENTANA, alto*tamPixel + PIXELES_EXTRA_ALTO_VENTANA);
+        int posXMarco = (configuracionGraficaSistema.getBounds().width - (ancho * tamPixel + PIXELES_EXTRA_ANCHO_VENTANA)) / 2;
+        int posYMarco = (configuracionGraficaSistema.getBounds().height - (alto * tamPixel + PIXELES_EXTRA_ALTO_VENTANA)) / 2;
+        setBounds(posXMarco, posYMarco, ancho * tamPixel + PIXELES_EXTRA_ANCHO_VENTANA, alto * tamPixel + PIXELES_EXTRA_ALTO_VENTANA);
 
         // Se le establece el tamaño al lienzo.
-        canvas.setSize(ancho*tamPixel, alto*tamPixel);
+        canvas.setSize(ancho * tamPixel, alto * tamPixel);
     }
 
     public void limpiar() {
-        imagenEnBuffer = configuracionGraficaSistema.createCompatibleImage(ancho*tamPixel, alto*tamPixel);
+        imagenEnBuffer = configuracionGraficaSistema.createCompatibleImage(ancho * tamPixel, alto * tamPixel);
         imagenG2D = imagenEnBuffer.createGraphics();
         imagenG2D.setColor(colorFondo);
-        imagenG2D.fillRect(0, 0, ancho*tamPixel, alto*tamPixel);
+        imagenG2D.fillRect(0, 0, ancho * tamPixel, alto * tamPixel);
     }
 
     // Ejecutar este método requiere haber llamado previamente a limpiar().
     public void marcarPixel(int x, int y, Color color) {
         // Se pinta el pixel sobre el Graphics2D de la imagen que tenemos en el buffer.
         imagenG2D.setColor(color);
-        imagenG2D.fillRect(x*tamPixel, y*tamPixel, tamPixel, tamPixel);
+        imagenG2D.fillRect(x * tamPixel, y * tamPixel, tamPixel, tamPixel);
+    }
+
+    public void marcarPixel2(int x, int y, Color color) {
+        imagenG2D.setColor(color);
+        imagenG2D.fillRect(x * tamPixel, y * tamPixel, tamPixel, tamPixel + 200);
     }
 
     public void escribirTexto(int x, int y, String texto, Color color) {
@@ -136,7 +144,7 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
 
         // Se realiza un ajuste ya que la posición indicada corresponde al
         // punto inferior izquierdo del texto (no al superior izquierdo).
-        imagenG2D.drawString(texto, x*tamPixel, (y+1)*tamPixel);
+        imagenG2D.drawString(texto, x * tamPixel, (y + 1) * tamPixel);
     }
 
     // Ejecutar este método requiere haber llamado previamente a limpiar(),
@@ -154,6 +162,7 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
     public int getTamX() {
         return ancho;
     }
+
     public int getTamY() {
         return alto;
     }

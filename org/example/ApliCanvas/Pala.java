@@ -1,4 +1,4 @@
-package org.example.PkDemoBolas;
+package org.example.ApliCanvas;
 
 import org.example.ApliCanvas.Dibujable;
 import org.example.ApliCanvas.Lienzo;
