@@ -10,7 +10,7 @@ public class PrincipalDemoBolas {
 
     public static void main(String[] args) {
 
-        Lienzo lienzo = new VentanaMultimedia("A jugar!!");
+        Lienzo lienzo = new VentanaMultimedia("A jugar!!",400,400,2,Color.pink);
         ((VentanaMultimedia) lienzo).setTitle("PIN PON");
 
         //Creacion de la bola y la pala y las agregamos al lienzo

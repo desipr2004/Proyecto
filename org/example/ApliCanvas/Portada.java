@@ -15,26 +15,22 @@ public class Portada extends JPanel {
         JButton boton = new JButton("Iniciar Juego");
 
         boton.addActionListener(e -> {
-            VentanaMultimedia ventana = new VentanaMultimedia("PING PONG");
-            ventana.redimensionar(400, 400);
-            ventana.limpiar();
-            ventana.volcar();
-
+            VentanaMultimedia ventana = new VentanaMultimedia("PING PONG", 400, 400, 10, Color.white);
             PrincipalDemoCuadrado juego = new PrincipalDemoCuadrado(ventana);
-            juego.iniciarJuego();
+           juego.iniciarJuego();
         });
 
+
         panelBoton.add(boton);
-        panelBoton.setPreferredSize(new Dimension(100,50));
+        panelBoton.setPreferredSize(new Dimension(100, 50));
+        add(panelBoton, BorderLayout.SOUTH);
 
-    add(panelBoton, BorderLayout.SOUTH);
-
-}
+    }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        ImageIcon imagen = new ImageIcon("C:\\Users\\desir\\IdeaProjects\\Proyecto\\src\\main\\java\\org\\example\\ApliCanvas\\images.jpg");
+        ImageIcon imagen = new ImageIcon(getClass().getResource("/org/example/ApliCanvas/images.jpg"));
 
         g.drawImage(imagen.getImage(), 0, 0, getWidth(), getHeight(), this);
     }

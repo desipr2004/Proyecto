@@ -58,10 +58,6 @@ public class PrincipalDemoCuadrado {
             ventana.marcarPixel(x, y, Color.GREEN);
 
             ventana.marcarPixel2(q, w, Color.red);
-            int g = 19;
-            int h = 5;
-
-            ventana.marcarPixel2(q, w, Color.red);
             ventana.volcar();
 
             Utilidades.espera(DELAY);
@@ -69,12 +65,8 @@ public class PrincipalDemoCuadrado {
     }
 
     public static void main(String[] args) {
-        // Código para iniciar el juego aquí
-        VentanaMultimedia ventana = new VentanaMultimedia("Nombre del Juego");
-        ventana.redimensionar(800, 600); // ajusta el tamaño como desees
-        ventana.limpiar();
-        ventana.volcar();
-
+        // Código para iniciar el juego aquí  //int ancho, int alto, int tamPixel, Color colorFondo
+        VentanaMultimedia ventana = new VentanaMultimedia("PING PONG", 800,600, 10, Color.WHITE );
         PrincipalDemoCuadrado juego = new PrincipalDemoCuadrado(ventana);
         juego.iniciarJuego();
     }

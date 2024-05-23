@@ -20,7 +20,7 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
     private static final int PIXELES_EXTRA_ALTO_VENTANA = 28;
     private static final int PIXELES_EXTRA_ANCHO_VENTANA = 6;
 
-    private int ancho, alto;
+    private int ancho = 200, alto = 200;
     private int tamPixel;
     private Color colorFondo;
 
@@ -38,7 +38,7 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
     // disponible para terceros, para que puedan consultar las teclas.
     private Teclado teclado = new Teclado();
 
-    public VentanaMultimedia(String tituloVentana) {
+    public VentanaMultimedia(String tituloVentana, int ancho, int alto, int tamPixel, Color colorFondo) {
         super(tituloVentana);
 
         this.ancho = ancho;
@@ -51,6 +51,17 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
         GraphicsEnvironment entornoGrafico = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice adaptadorGrafico = entornoGrafico.getDefaultScreenDevice();
         configuracionGraficaSistema = adaptadorGrafico.getDefaultConfiguration();
+
+        canvas = new Canvas(configuracionGraficaSistema);
+        canvas.setSize(ancho * tamPixel, alto * tamPixel);
+        canvas.setIgnoreRepaint(true);
+
+        this.add(canvas);
+        this.pack();
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        canvas.createBufferStrategy(2);
 
         // A continuación vienen aspectos de "ventanas Java".
 
@@ -81,43 +92,18 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
         // pantalla sin parpadeos (solo se modifica la imagen visible cuando
         // se tiene listo el "siguiente fotograma").
         canvas.createBufferStrategy(2);
-
-        // Se "engancha" nuestro teclado al JFrame y al Canvas, para que ambos
-        // informen de las teclas pulsadas que les lleguen.
-        // Es necesario engancharlo a AMBOS. Al JFrame, para cuando esté activo él
-        // (=tenga el "foco") y al Canvas para cuando sí esté activo el Canvas.
-        this.addKeyListener(teclado);
+        imagenEnBuffer = configuracionGraficaSistema.createCompatibleImage(ancho * tamPixel, alto *tamPixel);
+        imagenG2D = imagenEnBuffer.createGraphics();
+        imagenG2D.setColor(colorFondo);
+        imagenG2D.fillRect(0, 0, ancho * tamPixel, alto * tamPixel);
         canvas.addKeyListener(teclado);
-    }
-
-    public int getAncho() {
-        return ancho;
-    }
-
-    public int getAlto() {
-        return alto;
     }
 
     public Teclado getTeclado() {
         return teclado;
     }
 
-    private void ajustarTamannoMarco() {
-        // Se calcula e indica la posición X, Y así como el tamaño X, Y del JFrame.
-        // La posición se calcula para que la ventana quede centrada en la pantalla.
-        // Se suman algunos píxeles adicionales para tener en cuenta que el JFrame
-        // tiene un título y unos bordes que también ocupan algunos píxeles.
-        int posXMarco = (configuracionGraficaSistema.getBounds().width - (ancho * tamPixel + PIXELES_EXTRA_ANCHO_VENTANA)) / 2;
-        int posYMarco = (configuracionGraficaSistema.getBounds().height - (alto * tamPixel + PIXELES_EXTRA_ALTO_VENTANA)) / 2;
-        setBounds(posXMarco, posYMarco, ancho * tamPixel + PIXELES_EXTRA_ANCHO_VENTANA, alto * tamPixel + PIXELES_EXTRA_ALTO_VENTANA);
-
-        // Se le establece el tamaño al lienzo.
-        canvas.setSize(ancho * tamPixel, alto * tamPixel);
-    }
-
     public void limpiar() {
-        imagenEnBuffer = configuracionGraficaSistema.createCompatibleImage(ancho * tamPixel, alto * tamPixel);
-        imagenG2D = imagenEnBuffer.createGraphics();
         imagenG2D.setColor(colorFondo);
         imagenG2D.fillRect(0, 0, ancho * tamPixel, alto * tamPixel);
     }
@@ -171,5 +157,18 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
         ancho = tamX;
         alto = tamY;
         ajustarTamannoMarco();
+    }
+
+    private void ajustarTamannoMarco() {
+        canvas.setSize(ancho * tamPixel, alto * tamPixel);
+        this.pack();
+    }
+
+    public int getAncho() {
+        return 0;
+    }
+
+    public int getAlto() {
+        return 0;
     }
 }
