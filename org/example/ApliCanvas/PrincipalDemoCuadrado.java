@@ -4,72 +4,61 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by desir 🥑on 17  abril, 2024
+ * Created by desir 🥑on 17 abril, 2024
  */
 public class PrincipalDemoCuadrado {
-    private static final int DELAY = 250; // Milisegundos.
-    private static final int velocidadInicial_X = 1;
-    private static final int velocidadInicial_Y = 2;
-    private static final int velocidadMaximaPelota = 1;
-    private static final int incrementoDeVelocidad = 0;
     private VentanaMultimedia ventana;
+    private Teclado teclado;
+    private Pelota pelota;
+    private Pala pala1;
+    private Pala pala2;
+    private static final int DELAY = 30;
 
     public PrincipalDemoCuadrado(VentanaMultimedia ventana) {
+        System.out.println("Inicializando PrincipalDemoCuadrado...");
         this.ventana = ventana;
+        this.teclado = ventana.getTeclado();
+        this.pelota = new Pelota(ventana.getTamX() / 2.0, ventana.getTamY() / 2.0, 45.0, 2.0, 100, Color.BLACK, ventana);
+        this.pala1 = new Pala(10, ventana.getTamY() / 2 - 30, 10, 60, Color.RED, ventana);
+        this.pala2 = new Pala(ventana.getTamX() - 20, ventana.getTamY() / 2 - 30, 10, 60, Color.BLUE, ventana);
+
+        if (this.pala1 == null || this.pala2 == null) {
+            throw new RuntimeException("Las palas no se inicializaron correctamente");
+        }
     }
 
     public void iniciarJuego() {
-        int x = 10, y = 10;
-        int q = 0, w = 5;
-
-        int direccionX = 1;
-        int direccionY = 1;
-        int velocidadX = velocidadInicial_X;
-        int velocidadY = velocidadInicial_Y;
-
-          boolean modoTecladoContinuo = true; // true: modo continuo / false: modo "1-vez".
-
-        Teclado teclado = ventana.getTeclado();
-
-        while (true) { // Al cerrar la ventana se acaba la aplicación.
-
+        System.out.println("Iniciando el juego...");
+        while (true) {
 
             ventana.limpiar();
+            System.out.println("Ventana limpiada");
+            pelota.dibujar();
+            if (teclado.pulsada(KeyEvent.VK_UP)) pala1.mover(-2);
+            if (teclado.pulsada(KeyEvent.VK_DOWN)) pala1.mover(2);
 
-            x += direccionX * velocidadX;
-            y += direccionY * velocidadY;
-            w += direccionY * velocidadY;
+            pelota.mover();
+            System.out.println("Pelota movida");
 
-            if (x <= 0 || x >= ventana.getAncho() - 1) {
-                direccionX *= -1;
-            }
+            pelota.comprobarColision(pala1);
+            pelota.comprobarColision(pala2);
 
-            if (y <= 0 || y >= ventana.getAlto() - 1) {
-                direccionY *= -1;
-            }
-            if (modoTecladoContinuo) {
-            if (teclado.pulsada(KeyEvent.VK_UP) && y > 0) y--;
-            if (teclado.pulsada(KeyEvent.VK_DOWN) && y < ventana.getAlto() - 1) y++;
-             } else {
-            if (teclado.pulsada1Vez(KeyEvent.VK_UP) && y > 0) y--;
-            if (teclado.pulsada1Vez(KeyEvent.VK_DOWN) && y < ventana.getAlto() - 1) y++;
-             }
+            pala1.dibujar();
+            pala2.dibujar();
+            pelota.dibujar();
+            System.out.println("Elementos dibujados");
 
-            ventana.marcarPixel(x, y, Color.GREEN);
-
-            ventana.marcarPixel2(q, w, Color.red);
             ventana.volcar();
+            System.out.println("Contenido volcado");
 
             Utilidades.espera(DELAY);
         }
     }
 
     public static void main(String[] args) {
-        // Código para iniciar el juego aquí  //int ancho, int alto, int tamPixel, Color colorFondo
-        VentanaMultimedia ventana = new VentanaMultimedia("PING PONG", 800,600, 10, Color.WHITE );
-        PrincipalDemoCuadrado juego = new PrincipalDemoCuadrado(ventana);
+        System.out.println("Creando ventana multimedia...");
+        VentanaMultimedia ventana = new VentanaMultimedia("PING PONG", 800, 600, 1, Color.pink);
+       PrincipalDemoCuadrado juego = new PrincipalDemoCuadrado(ventana);
         juego.iniciarJuego();
     }
 }
-
-

@@ -16,87 +16,38 @@ import javax.swing.JFrame;
 
 public class VentanaMultimedia extends JFrame implements Lienzo {
     private static final long serialVersionUID = 1L;
-
-    private static final int PIXELES_EXTRA_ALTO_VENTANA = 28;
-    private static final int PIXELES_EXTRA_ANCHO_VENTANA = 6;
-
     private int ancho = 200, alto = 200;
     private int tamPixel;
     private Color colorFondo;
-
     private GraphicsConfiguration configuracionGraficaSistema;
-
-    // El lienzo Java sobre el que dibujaremos.
     private Canvas canvas;
-
-    // Imagen en búffer. Aquí se irá pintando y, cuando toque volcar,
-    // sustituiremos la imagen visible por esta.
     private BufferedImage imagenEnBuffer;
-    private Graphics2D imagenG2D; // Este es el Graphics2D propio de la imagen.
-
-    // El Teclado que engancharemos a la ventana y que pondremos
-    // disponible para terceros, para que puedan consultar las teclas.
+    private Graphics2D imagenG2D;
     private Teclado teclado = new Teclado();
 
     public VentanaMultimedia(String tituloVentana, int ancho, int alto, int tamPixel, Color colorFondo) {
         super(tituloVentana);
-
         this.ancho = ancho;
         this.alto = alto;
         this.tamPixel = tamPixel;
         this.colorFondo = colorFondo;
-
-        // Se obtiene la configuración gráfica del sistema y se guarda,
-        // ya que será necesaria para algunas cuestiones.
         GraphicsEnvironment entornoGrafico = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice adaptadorGrafico = entornoGrafico.getDefaultScreenDevice();
         configuracionGraficaSistema = adaptadorGrafico.getDefaultConfiguration();
-
         canvas = new Canvas(configuracionGraficaSistema);
         canvas.setSize(ancho * tamPixel, alto * tamPixel);
         canvas.setIgnoreRepaint(true);
-
         this.add(canvas);
         this.pack();
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         canvas.createBufferStrategy(2);
-
-        // A continuación vienen aspectos de "ventanas Java".
-
-        // Se impide redimensionar la ventana.
-        setResizable(false);
-
-        // Se le dice que al cerrar la ventana se termine la aplicación.
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-        // Se crea un nuevo componente (java.awt.Canvas) de tipo lienzo (Canvas).
-        canvas = new Canvas();
-        add(canvas); // Y se añade a este JFrame.
-
-        ajustarTamannoMarco();
-
-        // Se pide ignorar el repintado. Necesario al usar doble búffer.
-        setIgnoreRepaint(true);
-        canvas.setIgnoreRepaint(true);
-
-        // Se ordena al JFrame que procese todo lo que le hemos dicho.
-        pack();
-
-        // Se indica que la ventana deberá ser visible a partir de este momento.
-        setVisible(true);
-
-        // Se crea una estrategia de doble búffer, para poder actualizar la
-        // pantalla sin parpadeos (solo se modifica la imagen visible cuando
-        // se tiene listo el "siguiente fotograma").
-        canvas.createBufferStrategy(2);
-        imagenEnBuffer = configuracionGraficaSistema.createCompatibleImage(ancho * tamPixel, alto *tamPixel);
+        imagenEnBuffer = configuracionGraficaSistema.createCompatibleImage(ancho * tamPixel, alto * tamPixel);
         imagenG2D = imagenEnBuffer.createGraphics();
         imagenG2D.setColor(colorFondo);
         imagenG2D.fillRect(0, 0, ancho * tamPixel, alto * tamPixel);
         canvas.addKeyListener(teclado);
+
     }
 
     public Teclado getTeclado() {
@@ -108,40 +59,20 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
         imagenG2D.fillRect(0, 0, ancho * tamPixel, alto * tamPixel);
     }
 
-    // Ejecutar este método requiere haber llamado previamente a limpiar().
     public void marcarPixel(int x, int y, Color color) {
-        // Se pinta el pixel sobre el Graphics2D de la imagen que tenemos en el buffer.
         imagenG2D.setColor(color);
         imagenG2D.fillRect(x * tamPixel, y * tamPixel, tamPixel, tamPixel);
     }
 
-    public void marcarPixel2(int x, int y, Color color) {
-        imagenG2D.setColor(color);
-        imagenG2D.fillRect(x * tamPixel, y * tamPixel, tamPixel, tamPixel + 200);
-    }
-
     public void escribirTexto(int x, int y, String texto, Color color) {
-        // Actualmente, la altura del texto puede sobrepasar la altura
-        // de un pixel y, en este momento, no sé cómo se ajusta.
-        // Habrá que hacer un imagenG2D.getFont(), modificar el font
-        // y finalmente un setFont(), pero no sé cómo modificar el font.
-
         imagenG2D.setColor(color);
-
-        // Se realiza un ajuste ya que la posición indicada corresponde al
-        // punto inferior izquierdo del texto (no al superior izquierdo).
         imagenG2D.drawString(texto, x * tamPixel, (y + 1) * tamPixel);
     }
 
-    // Ejecutar este método requiere haber llamado previamente a limpiar(),
-    // y, si se quiere representar algo, también a marcarPixel(), claro.
     public void volcar() {
         BufferStrategy buffer = canvas.getBufferStrategy();
         Graphics graphics = buffer.getDrawGraphics();
-
         graphics.drawImage(imagenEnBuffer, 0, 0, null);
-
-        // Este if es por cosas de Windows.
         if (!buffer.contentsLost()) buffer.show();
     }
 
@@ -164,11 +95,13 @@ public class VentanaMultimedia extends JFrame implements Lienzo {
         this.pack();
     }
 
-    public int getAncho() {
-        return 0;
+    public Lienzo getLienzo() {
+        return this;
     }
 
-    public int getAlto() {
-        return 0;
+    public static void main(String[] args) {
+        VentanaMultimedia prueba= new VentanaMultimedia(
+                "Prueba",200,200,100,Color.pink
+        );
     }
 }

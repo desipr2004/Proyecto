@@ -14,9 +14,11 @@ public class PrincipalDemoBolas {
         ((VentanaMultimedia) lienzo).setTitle("PIN PON");
 
         //Creacion de la bola y la pala y las agregamos al lienzo
-        Pelota bola = new Pelota(16, 16, 45, 0.50, 3, 4, Color.white, lienzo);
-        Pala pala1 = new Pala(20, 200, 20, 100, Color.pink, lienzo);
-        Pala pala2 = new Pala(460, 200, 20, 100, Color.pink, lienzo);
+// Ejemplo si los argumentos debían ser reorganizados:
+        Pelota bola = new Pelota(16.00, 16.00, 45.00, 1, 20, Color.black, lienzo);
+        Pala pala1 = new Pala((int) 20.0, (int) 200.0, (int) 20.0, 100, Color.pink, lienzo);
+
+        Pala pala2 = new Pala((int) 460.0, (int) 200.0, (int) 20.0, 100, Color.pink, lienzo);
 
 
         while (true) {

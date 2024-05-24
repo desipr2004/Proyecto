@@ -60,4 +60,11 @@ public class Pala implements Dibujable {
         // ademas al asegurarnos de que this.y sea menor que 0, impide que la pala se salga por arriba del lienzo
     }
 
+    public int getPosX() {
+        return this.x;
+    }
+
+    public Object getPosY() {
+        return this.y;
+    }
 }
